@@ -31,6 +31,7 @@ public class EmployeeDTO {
     public EmployeeDTO() {
     }
 
+
     public EmployeeDTO(String empID, String empName, String empNo, String email, String phone, String deptCode, String jobCode, String salLevel, double salary, double bonus, String managerId, Date hireDate, Date entDate, String entYn) {
         this.empID = empID;
         this.empName = empName;
