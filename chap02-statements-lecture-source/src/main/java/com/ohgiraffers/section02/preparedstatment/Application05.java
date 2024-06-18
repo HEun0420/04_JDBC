@@ -90,5 +90,5 @@ public class Application05 {
         for(EmployeeDTO emp : empList){
             System.out.println(emp);
         }
-    } 
+    }
 }
