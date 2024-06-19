@@ -1,5 +1,4 @@
 package com.ohgiraffers.section02.preparedstatment;
-
 import com.ohgiraffers.model.dto.EmployeeDTO;
 
 import java.io.FileInputStream;
@@ -15,8 +14,10 @@ import static com.ohgiraffers.common.JDBCTemplate.close;
 import static com.ohgiraffers.common.JDBCTemplate.getConnection;
 
 public class Application05 {
+
     public static void main(String[] args) {
-        // 연결 객체 만들기
+
+        // 연결객체 만들기
         Connection con = getConnection();
 
         PreparedStatement pstmt = null;
@@ -26,32 +27,33 @@ public class Application05 {
         // 조회할 employee의 이름의 성을 받아서 찾기
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("조회할 이름의 성을 입력하세요 : ");
-
+        System.out.print("조회할 이름의 성을 입력하세요 : ");
         String empName = sc.nextLine();
 
         // concat(?, '%') => ? 로 시작하는 것
-//        String query = "select * from employee where emp_name like concat(?,'%')";
+//        String query = "select * from employee where emp_name like concat(?, '%')";
 
         EmployeeDTO row = null;
         List<EmployeeDTO> empList = null;
 
         Properties prop = new Properties();
+
         try {
 
             prop.loadFromXML(new FileInputStream(
-                    "src/main/java/com/ohgiraffers/section02/preparedstatment/employee-query.xml"));
+                    "src/main/java/com/ohgiraffers/section02/preparedstatement/employee-query.xml"));
 
             String query = prop.getProperty("selectEmpByFamilyName");
 
-
             pstmt = con.prepareStatement(query);
 
-            pstmt.setString(1,empName);
+            pstmt.setString(1, empName);
 
             rset = pstmt.executeQuery();
+
             empList = new ArrayList<>();
-            while (rset.next()){
+
+            while (rset.next()) {
 
                 row = new EmployeeDTO();
 
@@ -71,8 +73,8 @@ public class Application05 {
                 row.setEntYn(rset.getString("ENT_YN"));
 
                 empList.add(row);
-
             }
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } catch (InvalidPropertiesFormatException e) {
@@ -87,8 +89,8 @@ public class Application05 {
             close(con);
         }
 
-        for(EmployeeDTO emp : empList){
+        for(EmployeeDTO emp : empList) {
             System.out.println(emp);
         }
-    } 
+    }
 }
