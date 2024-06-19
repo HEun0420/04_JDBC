@@ -9,7 +9,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.*;
 
 import static com.ohgriaffers.common.JDBCTemplate.close;
@@ -22,7 +21,7 @@ public class Run {
         Scanner sc = new Scanner(System.in);
 
         boolean flag = true;
-        while(flag){
+        while (flag) {
             System.out.println("employee 데이터에 접속하셨습니다. 어느 것을 실행할까요?.");
             System.out.println("1. 목록 조회");
             System.out.println("2. 추가");
@@ -34,8 +33,8 @@ public class Run {
             String choice = sc.next();
 
 
-            switch (choice){
-                case "1" :
+            switch (choice) {
+                case "1":
                     // 목록조회 메서드
                     allSearching();
                     break;
@@ -57,7 +56,7 @@ public class Run {
                     break;
                 case "0":
                     flag = false;
-                System.out.println("종료합니다.");
+                    System.out.println("종료합니다.");
                     break;
             }
         }
@@ -103,31 +102,31 @@ public class Run {
 
                 empList.add(row);
             }
-            } catch(IOException e){
-                throw new RuntimeException(e);
-            } catch(SQLException e){
-                throw new RuntimeException(e);
-            } finally{
-                close(rset);
-                close(pstmt);
-                close(con);
-            }
-            for (EmployeeDTO emp : empList) {
-                System.out.println(emp);
-            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(rset);
+            close(pstmt);
+            close(con);
         }
+        for (EmployeeDTO emp : empList) {
+            System.out.println(emp);
+        }
+    }
 
-        public static void addInfo(){
+    public static void addInfo() {
 
-            Connection con = getConnection();
+        Connection con = getConnection();
 
-            PreparedStatement pstmt = null;
-            int result = 0;
-            Properties prop = new Properties();
+        PreparedStatement pstmt = null;
+        int result = 0;
+        Properties prop = new Properties();
 
-            try {
-                prop.loadFromXML(new FileInputStream(
-                            "src/main/java/com/ohgriaffers/mapper/employee-query.xml"));
+        try {
+            prop.loadFromXML(new FileInputStream(
+                    "src/main/java/com/ohgriaffers/mapper/employee-query.xml"));
 
             String query = prop.getProperty("selectAddInfo");
 
@@ -135,28 +134,28 @@ public class Run {
             Scanner sc = new Scanner(System.in);
 
             System.out.println("직원의 id를 입력해주세요.");
-            String emp_id =sc.nextLine();
+            String emp_id = sc.nextLine();
             System.out.println("직원의 이름을 입력해주세요.");
-            String emp_name =sc.nextLine();
+            String emp_name = sc.nextLine();
             System.out.println("직원의 번호를 입력해주세요.");
-            String emp_no=sc.nextLine();
+            String emp_no = sc.nextLine();
             System.out.println("직원의 이메일을 입력해주세요.");
-            String email=sc.nextLine();
+            String email = sc.nextLine();
             System.out.println("직원의 핸드폰 번호를 입력해주세요.");
-            String phone=sc.nextLine();
+            String phone = sc.nextLine();
             System.out.println("직원의 부서 코드를 입력해주세요.");
-            String dept_code=sc.nextLine();
+            String dept_code = sc.nextLine();
             System.out.println("직원의 직장 코드를 입력해주세요.");
-            String job_code=sc.nextLine();
+            String job_code = sc.nextLine();
             System.out.println("직원의 월급 레벨을 입력해주세요.");
-            String sal_level=sc.nextLine();
+            String sal_level = sc.nextLine();
             System.out.println("직원의 월급을 입력해주세요.");
-            Double salary=sc.nextDouble();
+            Double salary = sc.nextDouble();
             System.out.println("직원의 보너스를 입력해주세요.");
-            Double bonus=sc.nextDouble();
+            Double bonus = sc.nextDouble();
             sc.nextLine();
             System.out.println("직원의 매니저 ID를 입력해주세요.");
-            String managerId=sc.nextLine();
+            String managerId = sc.nextLine();
 
             EmployeeDTO newEmp = new EmployeeDTO();
             newEmp.setEmpID(emp_id);
@@ -185,24 +184,24 @@ public class Run {
             pstmt.setString(11, newEmp.getManagerId());
 
 
-                result = pstmt.executeUpdate();
+            result = pstmt.executeUpdate();
 
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            } finally {
-                close(pstmt);
-                close(con);
-            }
-
-            if(result> 0){
-                System.out.println("직원 정보 저장 성공");
-            } else {
-                System.out.println("직원 정보 저장 실패!");
-
-            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(pstmt);
+            close(con);
         }
+
+        if (result > 0) {
+            System.out.println("직원 정보 저장 성공");
+        } else {
+            System.out.println("직원 정보 저장 실패!");
+
+        }
+    }
 
     public static void editInfo() {
         Connection con = getConnection();
@@ -291,7 +290,7 @@ public class Run {
     }
 
 
-    public static void deleteInfo(){
+    public static void deleteInfo() {
         Connection con = getConnection();
 
         PreparedStatement pstmt = null;
@@ -309,7 +308,7 @@ public class Run {
 
             String query = prop.getProperty("selectDeleteInfo");
 
-            Scanner sc =new Scanner(System.in);
+            Scanner sc = new Scanner(System.in);
             System.out.println("삭제할 직원의 ID를 입력하세요 : ");
             String emp_id = String.valueOf(sc.nextInt());
 
@@ -327,7 +326,7 @@ public class Run {
             close(con);
         }
 
-        if(result > 0) {
+        if (result > 0) {
             System.out.println("직원 정보 삭제 성공!!");
         } else {
             System.out.println("직원 정보 삭제 실패");
@@ -335,9 +334,64 @@ public class Run {
     }
 
 
-    public static void oneSearching(){
+    public static void oneSearching() {
+        Connection con = getConnection();
+        PreparedStatement pstmt = null;
+        ResultSet rset = null;
+        Properties prop = new Properties();
 
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("조회할 직원의 ID를 입력해 주세요 : ");
+        String empId = sc.nextLine();
+
+        EmployeeDTO selectedEmp = null;
+
+        try {
+            prop.loadFromXML(new FileInputStream(
+                    "src/main/java/com/ohgriaffers/mapper/employee-query.xml"));
+            String query = prop.getProperty("selectOneSearching");
+
+            pstmt = con.prepareStatement(query);
+
+            pstmt.setString(1, empId);
+
+            rset = pstmt.executeQuery();
+
+            if (rset.next()) {
+
+                selectedEmp = new EmployeeDTO();
+
+                selectedEmp.setEmpID(rset.getString("EMP_ID"));
+                selectedEmp.setEmpName(rset.getString("EMP_NAME"));
+                selectedEmp.setEmpNo(rset.getString("EMP_NO"));
+                selectedEmp.setEmail(rset.getString("EMAIL"));
+                selectedEmp.setPhone(rset.getString("PHONE"));
+                selectedEmp.setDeptCode(rset.getString("DEPT_CODE"));
+                selectedEmp.setJobCode(rset.getString("JOB_CODE"));
+                selectedEmp.setSalLevel(rset.getString("SAL_LEVEL"));
+                selectedEmp.setSalary(rset.getDouble("SALARY"));
+                selectedEmp.setBonus(rset.getDouble("BONUS"));
+                selectedEmp.setManagerId(rset.getString("MANAGER_ID"));
+                selectedEmp.setHireDate(rset.getDate("HIRE_DATE"));
+                selectedEmp.setEntDate(rset.getDate("ENT_DATE"));
+                selectedEmp.setEntYn(rset.getString("ENT_YN"));
+
+
+            }
+        } catch (InvalidPropertiesFormatException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            close(pstmt);
+            close(con);
+            close(rset);
+        }
+        System.out.println("조회한 직원은 " + selectedEmp);
     }
-
-
 }
