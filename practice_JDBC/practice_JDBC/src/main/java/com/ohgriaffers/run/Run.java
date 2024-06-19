@@ -16,7 +16,7 @@ import static com.ohgriaffers.common.JDBCTemplate.getConnection;
 
 public class Run {
     public static void main(String[] args) {
-
+ 
         // 5가지 중에 하나 선택하기, 0번으로 나가기 선택 => while문 으로 작성
         Scanner sc = new Scanner(System.in);
 
